@@ -16,7 +16,7 @@ function App() {
       <NavBar token={token}/>
       <div className="px-24 pb-16">
       <Routes>
-        <Route path='/' element={<HomePage />}></Route>
+        <Route path='/' element={<InstructorDash />}></Route>
         <Route path='/request-form' element={<FlightRequestForm />}></Route>
         <Route path='/dashboard' element={<InstructorDash />}></Route>
         <Route path="/login" element={<Login setToken={setToken} />} />
