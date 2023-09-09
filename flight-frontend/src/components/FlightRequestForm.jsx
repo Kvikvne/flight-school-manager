@@ -16,7 +16,10 @@ const FlightRequestForm = () => {
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
   const [instructorNames, setInstructorNames] = useState([]);
-
+  const [studentGroundBlocks, setStudentGroundBlocks] = useState('');
+  const [studentDuelBlocks, setStudentDuelBlocks] = useState('');
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   useEffect(() => {
     // Fetch instructor data from the server
     async function fetchInstructorData() {
@@ -24,11 +27,13 @@ const FlightRequestForm = () => {
         const response = await axios.get(
           "http://127.0.0.1:8000/api/submit-insturctor-blocks/"
         );
-  
+
         if (response.status === 200) {
           // Extract instructor names from the fetched data
           const instructorData = response.data;
-          const instructorNames = instructorData.map((instructor) => instructor.Instructor_name);
+          const instructorNames = instructorData.map(
+            (instructor) => instructor.Instructor_name
+          );
           setInstructorNames(instructorNames);
         } else {
           console.error("Failed to fetch instructor names");
@@ -37,11 +42,9 @@ const FlightRequestForm = () => {
         console.error("An error occurred:", error);
       }
     }
-  
+
     fetchInstructorData();
   }, []);
-  
-
 
   const handleCheckboxChange = (value) => {
     if (selectedTrainingTypes.includes(value)) {
@@ -64,12 +67,15 @@ const FlightRequestForm = () => {
         {
           email: email,
           day_of_week: dayOfWeek,
-          time_of_day: timeOfDay,
           flying_amount: flyingAmount,
           instructor: instructor,
           time_with_instructor: timeWithInstructor,
           training_type: selectedTypesString,
           special_requests: specialRequests,
+          student_ground_blocks: studentGroundBlocks,
+          student_duel_blocks: studentDuelBlocks,
+          student_start_time: startTime,
+          student_end_time: endTime,
         }
       );
 
@@ -125,15 +131,24 @@ const FlightRequestForm = () => {
             </select>
           </div>
 
+          {/* make a time range */}
           <div className="mb-6">
-            <label className="label font-semibold">Time of Day</label>
-            <input
-              placeholder="Time"
-              className="input input-bordered w-full "
-              type="text"
-              value={timeOfDay}
-              onChange={(e) => setTimeOfDay(e.target.value)}
-            />
+            <label className="label font-semibold">Time of day</label>
+            <div className="space-x-2">
+              <input
+                type="time"
+                className="w-max px-2 py-1 border rounded input input-bordered cursor-pointer"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+              />
+              <span className="text-gray-600">to</span>
+              <input
+                type="time"
+                className="w-max px-2 py-1 border rounded input input-bordered cursor-pointer"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+              />
+            </div>
           </div>
 
           <div className="mb-6">
@@ -155,7 +170,7 @@ const FlightRequestForm = () => {
               value={instructor}
               onChange={(e) => setInstructor(e.target.value)}
             >
-
+              <option value="">Instructor</option>
               {instructorNames.map((name) => (
                 <option key={name} value={name}>
                   {name}
@@ -197,10 +212,12 @@ const FlightRequestForm = () => {
                   Ground blocks are classroom or simulator training sessions
                   with an instructor. One block is a 2-hour period.
                 </p>
-                <select className="select select-bordered w-full mt-2">
-                  <option disabled selected>
-                    BLOCKS
-                  </option>
+                <select className="select select-bordered w-full mt-2"
+                  value={studentGroundBlocks}
+                  onChange={(e) => setStudentGroundBlocks(e.target.value)}
+                  >
+                  <option value="">BLOCKS</option>
+
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -235,7 +252,10 @@ const FlightRequestForm = () => {
                   an aircraft, and debriefing with an instructor. One block is a
                   2-hour period.
                 </p>
-                <select className="select select-bordered w-full mt-2">
+                <select className="select select-bordered w-full mt-2"
+                value={studentDuelBlocks}
+                onChange={(e) => setStudentDuelBlocks(e.target.value)}
+                >
                   <option disabled selected>
                     BLOCKS
                   </option>

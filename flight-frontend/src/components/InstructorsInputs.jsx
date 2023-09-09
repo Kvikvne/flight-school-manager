@@ -10,6 +10,8 @@ const InstructorInput = () => {
   const [isDualFlightChecked, setIsDualFlightChecked] = useState(false);
   const [selectedTrainingTypes, setSelectedTrainingTypes] = useState([]);
   const [dayOfWeek, setDayOfWeek] = useState([]);
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
 
   const daysOfWeek = [
     "Monday",
@@ -47,6 +49,8 @@ const InstructorInput = () => {
           duel_blocks: duelBlocks,
           ground_blocks: groundBlocks,
           day_available: dayOfWeekString,
+          instructor_start_time: startTime,
+          instructor_end_time: endTime,
         }
       );
 
@@ -210,6 +214,24 @@ const InstructorInput = () => {
                   <p>{day}</p>
                 </div>
               ))}
+            </div>
+          </div>
+          <div className="mb-6">
+            <label className="label font-semibold">Time of day</label>
+            <div className="space-x-2">
+              <input
+                type="time"
+                className="w-max px-2 py-1 border rounded input input-bordered cursor-pointer"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+              />
+              <span className="text-gray-600">to</span>
+              <input
+                type="time"
+                className="w-max px-2 py-1 border rounded input input-bordered cursor-pointer"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+              />
             </div>
           </div>
           <div className="flex justify-center mt-8">

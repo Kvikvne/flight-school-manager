@@ -36,11 +36,12 @@ const FlightRequestList = () => {
               <th>ID</th>
               <th>Email</th>
               <th>Day</th>
-              <th>Time</th>
-              <th>Flying Amount</th>
+              {/* <th>Time</th> */}
+              {/* <th>Flying Amount</th> */}
+              <th>Blocks</th>
               <th>Instructor</th>
-              <th>Instuctor Time</th>
-              <th>Training Type</th>
+              <th>Available Time</th>
+
               <th>Special requests</th>
               <th>Edit</th>
               <th>Delete</th>
@@ -52,11 +53,15 @@ const FlightRequestList = () => {
                 <th>{flightRequest.id}</th>
                 <td>{flightRequest.email}</td>
                 <td>{flightRequest.day_of_week}</td>
-                <td>{flightRequest.time_of_day}</td>
-                <td>{flightRequest.flying_amount}</td>
+                {/* <td>{flightRequest.time_of_day}</td> */}
+                {/* <td>{flightRequest.flying_amount}</td> */}
+                <td>Ground: {flightRequest.student_ground_blocks}, Duel: {flightRequest.student_duel_blocks}</td>
                 <td>{flightRequest.instructor}</td>
-                <td>{flightRequest.time_with_instructor}</td>
-                <td>{flightRequest.training_type}</td>
+                <td>
+                  {flightRequest.student_start_time} -{" "}
+                  {flightRequest.student_end_time}
+                </td>
+
                 <td>{flightRequest.special_requests}</td>
                 <td>
                   <button className="btn btn-sm btn-warning">Edit</button>

@@ -38,11 +38,9 @@ const InstructorList = () => {
               <th>ID</th>
               <th>Email</th>
               <th>Name</th>
-              <th>Type</th>
-              <th>Ground Blocks</th>
-              <th>Dual Blocks</th>
+              <th>Blocks</th>
               <th>Days</th>
-              
+              <th>Available Time</th>
             </tr>
           </thead>
           <tbody className="text-lg">
@@ -51,10 +49,9 @@ const InstructorList = () => {
                 <th>{instructorsData.id}</th>
                 <td>{instructorsData.Instructor_email}</td>
                 <td>{instructorsData.Instructor_name}</td>
-                <th>{instructorsData.training_type}</th>
-                <td>{instructorsData.ground_blocks}</td>
-                <td>{instructorsData.duel_blocks}</td>
+                <td>Ground: {instructorsData.ground_blocks}, Duel: {instructorsData.duel_blocks}</td>
                 <th>{instructorsData.day_available}</th>
+                <th>{instructorsData.instructor_start_time} - {instructorsData.instructor_end_time}</th>
                 
                 <td>
                   <button className="btn btn-sm btn-warning">Edit</button>
