@@ -14,6 +14,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar token={token}/>
+      <div className="px-24 pb-16">
       <Routes>
         <Route path='/' element={<HomePage />}></Route>
         <Route path='/request-form' element={<FlightRequestForm />}></Route>
@@ -21,6 +22,8 @@ function App() {
         <Route path="/login" element={<Login setToken={setToken} />} />
         <Route path='/signup' element={<Signup />}></Route>
       </Routes>
+      </div>
+      
     </BrowserRouter>
   )
 }
