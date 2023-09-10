@@ -43,8 +43,8 @@ const FlightRequestList = () => {
               <th>Available Time</th>
 
               <th>Special requests</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              {/* <th>Edit</th>
+              <th>Delete</th> */}
             </tr>
           </thead>
           <tbody className="text-lg">
