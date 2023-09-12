@@ -1,0 +1,4 @@
+flight-backend/flightBackend/app/__pycache/
+flight-backend/flightBackend/flightBackend/settings.py
+flight-backend/flight.venv/
+flight-backend/flightBackend/db.sqlite3
