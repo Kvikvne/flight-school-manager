@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import TimeCheckBoxes from "./TimeCheckBoxes";
+import DayOfWeekCheckBoxes from "./DayCheckBoxes";
 
 const InstructorInput = () => {
   const [groundBlocks, setGroundBlocks] = useState("0");
@@ -10,26 +12,17 @@ const InstructorInput = () => {
   const [isDualFlightChecked, setIsDualFlightChecked] = useState(false);
   const [selectedTrainingTypes, setSelectedTrainingTypes] = useState([]);
   const [dayOfWeek, setDayOfWeek] = useState([]);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [timeRequest, setTimeRequest] = useState([]);
 
-  const daysOfWeek = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
 
-  const handleDayOfWeekChange = (day, isChecked) => {
+  const handleDayOfWeekChange = (selectedDays) => {
+    setDayOfWeek(selectedDays);
+  };
+  const handleTimeRequestChange = (time, isChecked) => {
     if (isChecked) {
-      // Add the selected day to the array
-      setDayOfWeek([...dayOfWeek, day]);
+      setTimeRequest([...timeRequest, time]);
     } else {
-      // Remove the deselected day from the array
-      setDayOfWeek(dayOfWeek.filter((d) => d !== day));
+      setTimeRequest(timeRequest.filter((d) => d !== time));
     }
   };
 
@@ -37,6 +30,7 @@ const InstructorInput = () => {
     event.preventDefault();
     const dayOfWeekString = dayOfWeek.join(", ");
     const selectedTypesString = selectedTrainingTypes.join(", ");
+    const selectedTimesString = timeRequest.join(", ");
     console.log("Selected Training Types:", selectedTypesString);
 
     try {
@@ -49,8 +43,7 @@ const InstructorInput = () => {
           duel_blocks: duelBlocks,
           ground_blocks: groundBlocks,
           day_available: dayOfWeekString,
-          instructor_start_time: startTime,
-          instructor_end_time: endTime,
+          instructor_times: selectedTimesString,
         }
       );
 
@@ -174,9 +167,11 @@ const InstructorInput = () => {
                   Dual instruction events are a pre-briefing, flight training in
                   an aircraft, and debriefing. One block is a 2-hour period.
                 </p>
-                <select className="select select-bordered w-full mt-2"
+                <select
+                  className="select select-bordered w-full mt-2"
                   value={duelBlocks}
-                  onChange={(e) => setDuelBlocks(e.target.value)}>
+                  onChange={(e) => setDuelBlocks(e.target.value)}
+                >
                   <option disabled selected>
                     BLOCKS
                   </option>
@@ -194,55 +189,21 @@ const InstructorInput = () => {
               </div>
             )}
           </div>
-          <div className="mb-6">
-            <h4 className="text-lg font-light">
-              When are you available to train next week?
-            </h4>
-            <label className="label font-semibold">Day of Week</label>
-            <div className="flex flex-wrap space-x-2">
-              {daysOfWeek.map((day) => (
-                <div key={day} className="flex space-x-1 items-center">
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    value={day}
-                    checked={dayOfWeek.includes(day)}
-                    onChange={(e) =>
-                      handleDayOfWeekChange(day, e.target.checked)
-                    }
-                  />
-                  <p>{day}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="mb-6">
-            <label className="label font-semibold">Time of day</label>
-            <div className="space-x-2">
-              <input
-                type="time"
-                className="w-max px-2 py-1 border rounded input input-bordered cursor-pointer"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-              />
-              <span className="text-gray-600">to</span>
-              <input
-                type="time"
-                className="w-max px-2 py-1 border rounded input input-bordered cursor-pointer"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="flex justify-center mt-8">
-          <button
-            className="btn btn-wide btn-primary"
-            type="submit"
-          >
-            Submit
-          </button>
-          </div>
           
+          <DayOfWeekCheckBoxes
+            selectedDays={dayOfWeek}
+            onDayChange={handleDayOfWeekChange}
+          />
+
+          <TimeCheckBoxes
+            selectedTimes={timeRequest}
+            onTimeChange={handleTimeRequestChange}
+          />
+          <div className="flex justify-center mt-8">
+            <button className="btn btn-wide btn-primary" type="submit">
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     </div>

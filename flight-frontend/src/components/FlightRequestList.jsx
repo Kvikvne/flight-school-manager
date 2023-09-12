@@ -49,7 +49,7 @@ const FlightRequestList = () => {
           </thead>
           <tbody className="text-lg">
             {flightRequests.map((flightRequest) => (
-              <tr className="hover">
+              <tr key={flightRequest.id} className="hover">
                 <th>{flightRequest.id}</th>
                 <td>{flightRequest.email}</td>
                 <td>{flightRequest.day_of_week}</td>
@@ -58,8 +58,7 @@ const FlightRequestList = () => {
                 <td>Ground: {flightRequest.student_ground_blocks}, Duel: {flightRequest.student_duel_blocks}</td>
                 <td>{flightRequest.instructor}</td>
                 <td>
-                  {flightRequest.student_start_time} -{" "}
-                  {flightRequest.student_end_time}
+                  {flightRequest.time_request}
                 </td>
 
                 <td>{flightRequest.special_requests}</td>

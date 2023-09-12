@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import TimeCheckBoxes from "./TimeCheckBoxes";
+import DayOfWeekCheckBoxes from "./DayCheckBoxes";
 
 const FlightRequestForm = () => {
   const [email, setEmail] = useState("");
-  const [dayOfWeek, setDayOfWeek] = useState("");
-  const [timeOfDay, setTimeOfDay] = useState("");
-  const [flyingAmount, setFlyingAmount] = useState("");
+  const [dayOfWeek, setDayOfWeek] = useState([]);
   const [instructor, setInstructor] = useState("");
-  const [timeWithInstructor, setTimeWithInstructor] = useState("");
   const [specialRequests, setSpecialRequests] = useState("");
   const [selectedTrainingTypes, setSelectedTrainingTypes] = useState([]);
   const [isGroundChecked, setIsGroundChecked] = useState(false);
@@ -16,10 +15,10 @@ const FlightRequestForm = () => {
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
   const [instructorNames, setInstructorNames] = useState([]);
-  const [studentGroundBlocks, setStudentGroundBlocks] = useState('');
-  const [studentDuelBlocks, setStudentDuelBlocks] = useState('');
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [studentGroundBlocks, setStudentGroundBlocks] = useState("");
+  const [studentDuelBlocks, setStudentDuelBlocks] = useState("");
+  const [timeRequest, setTimeRequest] = useState([]);
+
   useEffect(() => {
     // Fetch instructor data from the server
     async function fetchInstructorData() {
@@ -56,9 +55,22 @@ const FlightRequestForm = () => {
     }
   };
 
+  const handleTimeRequestChange = (time, isChecked) => {
+    if (isChecked) {
+      setTimeRequest([...timeRequest, time]);
+    } else {
+      setTimeRequest(timeRequest.filter((d) => d !== time));
+    }
+  };
+  const handleDayOfWeekChange = (selectedDays) => {
+    setDayOfWeek(selectedDays);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const selectedTypesString = selectedTrainingTypes.join(", ");
+    const selectedTimesString = timeRequest.join(", ");
+    const dayOfWeekString = dayOfWeek.join(", ");
     console.log("Selected Training Types:", selectedTypesString);
 
     try {
@@ -66,16 +78,13 @@ const FlightRequestForm = () => {
         "http://127.0.0.1:8000/api/submit-flight-request/",
         {
           email: email,
-          day_of_week: dayOfWeek,
-          flying_amount: flyingAmount,
+          day_of_week: dayOfWeekString,
           instructor: instructor,
-          time_with_instructor: timeWithInstructor,
           training_type: selectedTypesString,
           special_requests: specialRequests,
           student_ground_blocks: studentGroundBlocks,
           student_duel_blocks: studentDuelBlocks,
-          student_start_time: startTime,
-          student_end_time: endTime,
+          time_request: selectedTimesString,
         }
       );
 
@@ -109,58 +118,15 @@ const FlightRequestForm = () => {
             />
           </div>
 
-          <div className="mb-6">
-            <h4 className="text-lg font-light">
-              When are you available to train next week?
-            </h4>
-            <label className="label font-semibold">Day of Week</label>
-            <select
-              type="text"
-              className="select select-bordered w-full "
-              value={dayOfWeek}
-              onChange={(e) => setDayOfWeek(e.target.value)}
-            >
-              <option value="">Day</option>
-              <option value="Monday">Monday</option>
-              <option value="Tuesday">Tuesday</option>
-              <option value="Wednesday">Wednesday</option>
-              <option value="Thursday">Thursday</option>
-              <option value="Friday">Friday</option>
-              <option value="Saturday">Saturday</option>
-              <option value="Sunday">Sunday</option>
-            </select>
-          </div>
+          <DayOfWeekCheckBoxes
+            selectedDays={dayOfWeek}
+            onDayChange={handleDayOfWeekChange}
+          />
+          <TimeCheckBoxes
+            selectedTimes={timeRequest}
+            onTimeChange={handleTimeRequestChange}
+          />
 
-          {/* make a time range */}
-          <div className="mb-6">
-            <label className="label font-semibold">Time of day</label>
-            <div className="space-x-2">
-              <input
-                type="time"
-                className="w-max px-2 py-1 border rounded input input-bordered cursor-pointer"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-              />
-              <span className="text-gray-600">to</span>
-              <input
-                type="time"
-                className="w-max px-2 py-1 border rounded input input-bordered cursor-pointer"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="mb-6">
-            <label className="label font-semibold">Amount of Flying</label>
-            <input
-              placeholder="Type here"
-              className="input input-bordered w-full "
-              type="text"
-              value={flyingAmount}
-              onChange={(e) => setFlyingAmount(e.target.value)}
-            />
-          </div>
           <div className="mb-6">
             <label className="label font-semibold">Instructor</label>
             <select
@@ -177,18 +143,6 @@ const FlightRequestForm = () => {
                 </option>
               ))}
             </select>
-          </div>
-          <div className="mb-6">
-            <label className="label font-semibold">
-              Time with Instructor or solo time
-            </label>
-            <input
-              placeholder="Type here"
-              className="input input-bordered w-full "
-              type="text"
-              value={timeWithInstructor}
-              onChange={(e) => setTimeWithInstructor(e.target.value)}
-            />
           </div>
 
           <div className="mb-6">
@@ -212,10 +166,11 @@ const FlightRequestForm = () => {
                   Ground blocks are classroom or simulator training sessions
                   with an instructor. One block is a 2-hour period.
                 </p>
-                <select className="select select-bordered w-full mt-2"
+                <select
+                  className="select select-bordered w-full mt-2"
                   value={studentGroundBlocks}
                   onChange={(e) => setStudentGroundBlocks(e.target.value)}
-                  >
+                >
                   <option value="">BLOCKS</option>
 
                   <option value="1">1</option>
@@ -252,9 +207,10 @@ const FlightRequestForm = () => {
                   an aircraft, and debriefing with an instructor. One block is a
                   2-hour period.
                 </p>
-                <select className="select select-bordered w-full mt-2"
-                value={studentDuelBlocks}
-                onChange={(e) => setStudentDuelBlocks(e.target.value)}
+                <select
+                  className="select select-bordered w-full mt-2"
+                  value={studentDuelBlocks}
+                  onChange={(e) => setStudentDuelBlocks(e.target.value)}
                 >
                   <option disabled selected>
                     BLOCKS

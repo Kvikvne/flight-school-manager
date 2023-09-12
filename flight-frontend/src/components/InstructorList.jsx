@@ -35,32 +35,31 @@ const InstructorList = () => {
         <table className="table">
           <thead className="text-lg">
             <tr>
-              <th>ID</th>
               <th>Email</th>
               <th>Name</th>
               <th>Blocks</th>
               <th>Days</th>
-              <th>Available Time</th>
+              <th>Available Times</th>
             </tr>
           </thead>
           <tbody className="text-lg">
-            {instructorData.map((instructorsData) => (
-              <tr className="hover">
-                <th>{instructorsData.id}</th>
-                <td>{instructorsData.Instructor_email}</td>
-                <td>{instructorsData.Instructor_name}</td>
-                <td>Ground: {instructorsData.ground_blocks}, Duel: {instructorsData.duel_blocks}</td>
-                <th>{instructorsData.day_available}</th>
-                <th>{instructorsData.instructor_start_time} - {instructorsData.instructor_end_time}</th>
-                
+            {instructorData.map((instructor) => (
+              <tr key={instructor.id} className="hover">
+                <td>{instructor.Instructor_email}</td>
+                <td>{instructor.Instructor_name}</td>
+                <td>
+                  Ground: {instructor.ground_blocks}, Duel:{" "}
+                  {instructor.duel_blocks}
+                </td>
+                <th>{instructor.day_available}</th>
+                <th>{instructor.instructor_times}</th>
+
                 <td>
                   <button className="btn btn-sm btn-warning">Edit</button>
                 </td>
                 <td>
                   <button
-                    onClick={() =>
-                      handleDeleteInstructorRequest(instructorsData.id)
-                    }
+                    onClick={() => handleDeleteInstructorRequest(instructor.id)}
                     className="btn btn-sm btn-error"
                   >
                     Delete
