@@ -2,6 +2,10 @@
 
 This is a work in progress project for a flight school schedule web application. The application aims to provide an efficient and user-friendly platform for scheduling flight school lessons.
 
+## Frontend Demo
+[Frontend Link](https://flight-frontend.onrender.com/)
+
+
 ## Project Status
 
 This project is currently in development. Users can add, edit, and delete their schedules, but more features are to be added.
