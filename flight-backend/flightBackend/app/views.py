@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .serializers import SignupSerializer, LoginSerializer
+from django.http import HttpResponse
+from .utility.scheduleGen import generate_schedule_csv
 
 
 
@@ -174,3 +176,15 @@ class LogoutView(APIView):
         # Delete the user's authentication token
         request.auth.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# Schedule generation
+def generate_csv_view(request):
+    # Call your Python script function to generate the CSV file
+    response = generate_schedule_csv()
+
+    
+    
+
+
+    return response
+

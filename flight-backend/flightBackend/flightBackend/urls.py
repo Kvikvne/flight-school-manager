@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from app.views import FlightRequestAPI, FlightRequestListAPI, FlightRequestDetailView, AircraftRequestAPI, SignupView, LoginView, LogoutView, InstructorRequestAPI
+from app.views import FlightRequestAPI, generate_csv_view, FlightRequestListAPI, FlightRequestDetailView, AircraftRequestAPI, SignupView, LoginView, LogoutView, InstructorRequestAPI
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,4 +14,5 @@ urlpatterns = [
     path('api/logout/', LogoutView.as_view(), name='api-logout'),
     path('api/submit-insturctor-blocks/', InstructorRequestAPI.as_view(), name='api-insturctor-blocks'),
     path('api/submit-insturctor-blocks/<int:pk>/', InstructorRequestAPI.as_view(), name='api-insturctor-blocks'),
+    path('generate-csv/', generate_csv_view, name='generate_csv'),
 ]

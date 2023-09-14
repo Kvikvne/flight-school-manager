@@ -3,7 +3,8 @@ import FlightRequestList from "./FlightRequestList";
 import AircraftList from "./AircraftList";
 import AircraftInputs from "./AircraftInputs";
 import InstructorsInputs from "./InstructorsInputs";
-import InstructorList from './InstructorList';
+import InstructorList from "./InstructorList";
+import ScheduleGen from "./ScheduleGen";
 
 const InstructorDash = () => {
   return (
@@ -44,6 +45,9 @@ const InstructorDash = () => {
           {/* <AircraftInputs /> */}
           <InstructorsInputs />
         </div>
+      </div>
+      <div className="bg-base-200 rounded-lg">
+        <ScheduleGen />
       </div>
     </div>
   );
