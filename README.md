@@ -6,7 +6,7 @@ This is a work in progress project for a flight school schedule web application.
 
 This project is currently in development. Users can add, edit, and delete their schedules, but more features are to be added.
 
-# Update
+### Update
 Users now have the capability to generate a basic schedule using their provided information. This schedule is conveniently available as a downloadable CSV file. As part of my future plans, I intend to enhance and modernize this feature, making it even more user-friendly and accessible.
 
 ## Reflection
